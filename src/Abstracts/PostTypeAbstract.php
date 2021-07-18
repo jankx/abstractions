@@ -26,6 +26,11 @@ abstract class PostTypeAbstract implements PostTypeConstract
         );
     }
 
+    public function get_taxonomies()
+    {
+        return array();
+    }
+
     public function register()
     {
         register_post_type(
@@ -40,5 +45,15 @@ abstract class PostTypeAbstract implements PostTypeConstract
                 $this->module
             )
         );
+
+        $taxonomies = $this->get_taxonomies();
+        if (is_array($taxonomies) && count($taxonomies)) {
+            foreach ($taxonomies as $taxonomy => $args) {
+                $args = wp_parse_args((array)$args, array(
+                    'public' => true,
+                ));
+                register_taxonomy($taxonomy, $this->get_post_type(), $args);
+            }
+        }
     }
 }
