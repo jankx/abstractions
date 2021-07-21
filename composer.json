@@ -1,5 +1,5 @@
 {
-  "name": "jankx/module-abstraction",
+  "name": "jankx/abstractions",
   "description": "Create base module structure to build more features for your WordPress site",
   "type": "library",
   "license": "MIT",
@@ -13,7 +13,7 @@
   "require": {},
   "autoload": {
     "psr-4": {
-      "Jankx\\Module\\": "src/"
+      "Jankx\\Abstractions\\": "src/"
     }
   }
 }

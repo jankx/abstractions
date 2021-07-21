@@ -1,5 +1,5 @@
 <?php
-namespace Jankx\Module\Constracts;
+namespace Jankx\Abstractions\Constracts;
 
 interface PostTypeConstract
 {

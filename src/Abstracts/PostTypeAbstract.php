@@ -1,7 +1,7 @@
 <?php
-namespace Jankx\Module\Abstracts;
+namespace Jankx\Abstractions\Abstracts;
 
-use Jankx\Module\Constracts\PostTypeConstract;
+use Jankx\Abstractions\Constracts\PostTypeConstract;
 
 abstract class PostTypeAbstract implements PostTypeConstract
 {

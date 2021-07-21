@@ -1,7 +1,7 @@
 <?php
-namespace Jankx\Module;
+namespace Jankx\Abstractions;
 
-use Jankx\Module\Constracts\ModuleConstract;
+use Jankx\Abstractions\Constracts\ModuleConstract;
 
 class ModuleLoader
 {
