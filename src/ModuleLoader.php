@@ -1,6 +1,7 @@
 <?php
 namespace Jankx\Abstractions;
 
+use Jankx\Abstractions\Constracts\PostTypeConstract;
 use Jankx\Abstractions\Constracts\ModuleConstract;
 
 class ModuleLoader
@@ -25,11 +26,46 @@ class ModuleLoader
         }
     }
 
+    public function module_init()
+    {
+        $module = new \ReflectionClass($this->module);
+
+        // Regsiser post type
+        $postTypeCls = sprintf('%s\PostType', $module->getNamespaceName());
+
+        if (class_exists($postTypeCls, true)) {
+            $post_type = new $postTypeCls();
+
+            if (is_a($post_type, PostTypeConstract::class)) {
+                $post_type->set_module($this->module);
+                $post_type->register();
+                $this->module->setPostType($post_type);
+            }
+        }
+
+        $this->module->init();
+    }
+
     public function load_module()
     {
-        if (!did_action('init')) {
-            add_action('init', array($this->module, 'init'));
+        if (!$this->module) {
+            return;
         }
+
+        if (!did_action('after_setup_theme')) {
+            add_action('after_setup_theme', array($this->module, 'bootstrap'));
+        } else {
+            $this->module->bootstrap();
+        }
+
+        if (!did_action('init')) {
+            add_action('init', array($this, 'module_init'));
+        } else {
+            $this->module_init();
+        }
+
+        add_action('wp', array($this->module, 'frontend_init'));
+        add_action('template_redirect', array($this->module, 'load_template'));
     }
 
     public function get_module()

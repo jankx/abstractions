@@ -8,19 +8,26 @@ abstract class Module implements ModuleConstract
 {
     protected $post_type;
 
+    public function setPostType($postType)
+    {
+        if (is_a($postType, PostTypeConstract::class)) {
+            $this->post_type = $postType;
+        }
+    }
+
+    public function bootstrap()
+    {
+    }
+
     public function init()
     {
-        $module = new \ReflectionClass($this);
+    }
 
-        // Regsiser post type
-        $postTypeCls = sprintf('%s\PostType', $module->getNamespaceName());
-        if (class_exists($postTypeCls, true)) {
-            $post_type = new $postTypeCls();
-            if (is_a($post_type, PostTypeConstract::class)) {
-                $this->post_type = $post_type;
-                $this->post_type->set_module($this);
-                $this->post_type->register();
-            }
-        }
+    public function frontend_init()
+    {
+    }
+
+    public function load_template()
+    {
     }
 }
